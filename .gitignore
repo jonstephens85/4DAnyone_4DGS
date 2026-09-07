@@ -33,3 +33,7 @@ outputs/
 # Local agent state may contain private provenance.
 .claude/
 work/
+
+# Personal capture data and third-party trainer inputs
+/data/lichtfeld/
+/data/source/iphone/

@@ -15,6 +15,22 @@
 > - requires **22 GB** of peak CUDA memory, enabling inference on consumer GPUs.
 > - generates a 121-frame video in **27 seconds** on a single RTX 4090.
 
+## About this fork
+
+This is a fork of [ant-research/4DAnyone](https://github.com/ant-research/4DAnyone)
+with additions for downstream reconstruction and inspection. Upstream code is
+unmodified apart from six lines in this README; everything else is new:
+
+- `integrations/4dgaussians/` — a 4DGaussians adapter, training configs,
+  evaluation and an interactive viewer. See its
+  [README](integrations/4dgaussians/README.md) for the full workflow, measured
+  results and the traps worth knowing about.
+- `scripts/export_4dgaussians.py` — exports a masked, calibrated dynamic dataset.
+- `scripts/*_rerun*.py` and `docs/rerun.md` — Rerun inspection of generated
+  videos and the camera rig.
+
+Licensed under Apache 2.0, as upstream.
+
 ## News
 
 - **2026-09-05**: Reduced peak GPU memory below **24 GB**, enabling inference on consumer GPUs (RTX 4090).
@@ -134,6 +150,12 @@ Use an input video with:
 - 1080p or higher, 9:16 portrait aspect ratio, at least 121 frames.
 
 ## 3DGS Reconstruction
+
+To inspect existing generated videos and their camera rig in Rerun, see the
+[Rerun results viewer guide](docs/rerun.md).
+
+For the experimental dynamic reconstruction adapter and isolated training setup,
+see the [4DGaussians pilot guide](integrations/4dgaussians/README.md).
 
 See the [nerfstudio guide](docs/nerfstudio.md) for details.
 
