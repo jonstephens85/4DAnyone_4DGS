@@ -47,14 +47,20 @@ def read_fdanyone(root):
         raise ValueError('Unsupported export format')
     if set(m['train_views']) & set(m['test_views']):
         raise ValueError('Train/test cameras overlap')
+    if not m['train_views']:
+        raise ValueError('Dataset has no training cameras')
     train = Frames(root,m,m['train_views']); test = Frames(root,m,m['test_views'])
     seed = np.load(root/'seed.npz',allow_pickle=False)
     xyz, rgb = seed['points'],seed['colors']
     ply = root/'points3D.ply'
     storePly(str(ply),xyz,rgb*255)
     norm = getNerfppNorm([train[i*train.frames] for i in range(len(train.cameras))])
-    # Render one held-out fixed camera through the entire action by default.
-    video = Frames(root,m,m['test_views'][:1])
+    # Playback is independent of evaluation; preserve old exports' default.
+    fallback = (m['test_views'] or m['train_views'])[0]
+    video_id = m.get('video_camera', fallback)
+    if video_id not in {c['camera_id'] for c in m['cameras']}:
+        raise ValueError('Unknown playback camera')
+    video = Frames(root,m,[video_id])
     return SceneInfo(point_cloud=BasicPointCloud(points=xyz,colors=rgb,normals=np.zeros_like(xyz)),
                      train_cameras=train,test_cameras=test,video_cameras=video,
                      nerf_normalization=norm,ply_path=str(ply),maxtime=1)

@@ -17,17 +17,21 @@
 
 ## About this fork
 
-This is a fork of [ant-research/4DAnyone](https://github.com/ant-research/4DAnyone)
-with additions for downstream reconstruction and inspection. Upstream code is
-unmodified apart from six lines in this README; everything else is new:
+This fork adds result inspection and Gaussian reconstruction tools to
+[4DAnyone](https://github.com/ant-research/4DAnyone). The original installation
+and inference instructions below are preserved.
 
-- `integrations/4dgaussians/` — a 4DGaussians adapter, training configs,
-  evaluation and an interactive viewer. See its
-  [README](integrations/4dgaussians/README.md) for the full workflow, measured
-  results and the traps worth knowing about.
-- `scripts/export_4dgaussians.py` — exports a masked, calibrated dynamic dataset.
-- `scripts/*_rerun*.py` and `docs/rerun.md` — Rerun inspection of generated
-  videos and the camera rig.
+**Start here:** [Run the included example video](docs/example.md). This guide
+clones this fork and generates your first 48 views.
+
+| Next step | Guide |
+|---|---|
+| Inspect videos, cameras and 3D motion | [Rerun](docs/rerun.md) |
+| Reconstruct a single timestamp | [3DGS](docs/3dgs.md) |
+| Train and view an animated model | [4DGS](docs/4dgs.md) |
+
+[Experiment notes](integrations/4dgaussians/experiments.md) record earlier runs;
+they are optional background, not setup instructions.
 
 Licensed under Apache 2.0, as upstream.
 
@@ -150,12 +154,6 @@ Use an input video with:
 - 1080p or higher, 9:16 portrait aspect ratio, at least 121 frames.
 
 ## 3DGS Reconstruction
-
-To inspect existing generated videos and their camera rig in Rerun, see the
-[Rerun results viewer guide](docs/rerun.md).
-
-For the experimental dynamic reconstruction adapter and isolated training setup,
-see the [4DGaussians pilot guide](integrations/4dgaussians/README.md).
 
 See the [nerfstudio guide](docs/nerfstudio.md) for details.
 

@@ -43,3 +43,18 @@ s = p.read_text()
 # The hard densification cap stops well short of a detailed human reconstruction.
 s = s.replace('shape[0]<360000', 'shape[0]<800000')
 p.write_text(s)
+# Respect exported timing instead of upstream's fixed 30 FPS video encoding.
+p = root/'render.py'
+s = p.read_text()
+if 'fdanyone_fps' not in s:
+    s = s.replace('background, cam_type):', 'background, cam_type, fps=30):')
+    s = s.replace('render_images, fps=30)', 'render_images, fps=fps)')
+    s = s.replace('        cam_type=scene.dataset_type', '''        cam_type=scene.dataset_type
+        fdanyone_fps = 30
+        if cam_type == "fdanyone":
+            import json
+            from fractions import Fraction
+            with open(os.path.join(dataset.source_path, "fdanyone.json")) as metadata:
+                fdanyone_fps = float(Fraction(str(json.load(metadata)["output"]["fps"])))''')
+    s = s.replace('background,cam_type)', 'background,cam_type,fdanyone_fps)')
+    p.write_text(s)
